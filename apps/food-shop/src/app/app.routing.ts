@@ -8,28 +8,30 @@ import { YourOrderDetailsComponent } from './components/your-order-details/your-
 const routes: Routes = [
   {
     path: '',
-    component: ShopComponent,
+    component: ShopComponent
   },
   {
     path: 'checkout',
-    component: CheckoutComponent,
+    component: CheckoutComponent
   },
   {
     path: 'orders',
-    component: YourOrdersComponent,
+    component: YourOrdersComponent
   },
   {
     path: 'orders/:id',
-    component: YourOrderDetailsComponent,
-  },
+    component: YourOrderDetailsComponent
+  }
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabledBlocking',
-    }),
+      useHash: true
+    })
   ],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class AppRouting {}
+export class AppRouting {
+}

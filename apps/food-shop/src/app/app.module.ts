@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { IconsRegistryModule, MaterialModule } from '@food-shop-architecture-workshop/core/theme';
@@ -26,7 +26,29 @@ import { YourOrdersComponent } from './components/your-orders/your-orders.compon
 import { YourOrderDetailsComponent } from './components/your-order-details/your-order-details.component';
 import { FoodShopOrdersOrderCardListModule } from '@food-shop-architecture-workshop/food-shop/orders/order-card-list';
 import { FoodShopOrdersOrderDetailsModule } from '@food-shop-architecture-workshop/food-shop/orders/order-details';
-import * as uuid from 'uuid';
+import { COMMON_SETTINGS_TOKEN, CommonSettings } from '@food-shop-architecture-workshop/core/model';
+import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, of, tap } from 'rxjs';
+
+@Injectable()
+export class ConfigLoader<T extends CommonSettings> {
+
+  public appSettings!: T;
+
+  constructor(private httpClient: HttpClient) {
+  }
+
+  loadConfig(url: string): Observable<any> {
+    return this.httpClient.get<T>(url).pipe(
+      tap(v => this.appSettings = v)
+    );
+  }
+
+}
+
+export interface FoodShopSettings extends CommonSettings {
+  enableCart: boolean;
+}
 
 @NgModule({
   declarations: [
@@ -36,7 +58,7 @@ import * as uuid from 'uuid';
     OverlayProductDetailsDialog,
     CheckoutComponent,
     YourOrdersComponent,
-    YourOrderDetailsComponent,
+    YourOrderDetailsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -53,11 +75,43 @@ import * as uuid from 'uuid';
     FoodShopProductProductDetailsModule,
     FoodShopCheckoutCheckoutDetailsModule,
     FoodShopOrdersOrderCardListModule,
-    FoodShopOrdersOrderDetailsModule,
+    FoodShopOrdersOrderDetailsModule
   ],
-  providers: [CartStateService, CheckoutStateService, FavoriteStateService, OrdersStateService, ProductsStateService],
-  bootstrap: [AppComponent],
+  providers: [
+    CartStateService,
+    CheckoutStateService,
+    FavoriteStateService,
+    OrdersStateService,
+    ProductsStateService,
+    ConfigLoader,
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: (configLoader: ConfigLoader<FoodShopSettings>) => () => {
+        return configLoader.loadConfig('http://localhost:4200/api/config').pipe(
+          catchError(err => {
+            return of({
+              enableCart: false,
+              enableAddToFavorite: false
+            });
+          }),
+          tap(v => console.log(v))
+        ).toPromise();
+
+      },
+      deps: [ConfigLoader]
+    },
+    {
+      provide: COMMON_SETTINGS_TOKEN,
+      useFactory: (configLoader: ConfigLoader<FoodShopSettings>) => configLoader.appSettings,
+      deps: [ConfigLoader]
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 
 }
+
+
+
