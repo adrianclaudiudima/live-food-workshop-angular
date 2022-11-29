@@ -9,6 +9,7 @@ import { ApplicationState } from '../../../../store/app-state.module';
 import { ShopActions } from '../../store/shop.actions';
 import { getShopStateWithProductsFiltered } from '../../store/shop.selectors';
 import { ShopState } from '../../store/shop-state.model';
+import { CartActions } from '../../../cart/cart.actions';
 
 @Component({
   selector: 'app-shop',
@@ -25,7 +26,6 @@ export class ShopComponent {
     private store: Store<ApplicationState>,
     private dialog: MatDialog, private snackBar: MatSnackBar
   ) {
-
     this.store.dispatch(ShopActions.loadProductsAndCategories());
     this.shopState$ = this.store.select(getShopStateWithProductsFiltered).pipe(
       tap(v => {
@@ -49,7 +49,12 @@ export class ShopComponent {
   }
 
   handleAddToBag(product: Product) {
-    // this.cartStateService.addProductToCart({ product, quantity: 1 });
+    this.store.dispatch(CartActions.addProduct({
+      productOrder: {
+        product,
+        quantity: 1
+      }
+    }));
     this.matSnackbarRef = this.snackBar.openFromTemplate(this.templatePortalContent,
       {
         horizontalPosition: 'end',
@@ -61,7 +66,6 @@ export class ShopComponent {
   }
 
   filterProducts(categorySummary: CategorySummary | undefined) {
-    // this.productsStateService.filterProducts(categorySummary);
     this.store.dispatch(ShopActions.filterProducts({ productType: categorySummary?.type }));
   }
 

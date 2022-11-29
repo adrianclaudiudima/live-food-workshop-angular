@@ -1,7 +1,7 @@
 import { ApplicationState } from '../../../store/app-state.module';
 import { createSelector } from '@ngrx/store';
 import { ShopState } from './shop-state.model';
-import { CategorySummary, Product } from '@food-shop-architecture-workshop/core/model';
+import { CategorySummary, DomainEntity, Product } from '@food-shop-architecture-workshop/core/model';
 
 
 const shopState = (appState: ApplicationState) => appState.shopState;
@@ -33,11 +33,14 @@ export const getAllCategories = createSelector<ApplicationState, ShopState, Cate
   return s1.domain.categories;
 });
 
-
 const categoriesAndProducts = createSelector<ApplicationState, ApplicationState, Product[], CategorySummary[], { categories: number, products: number }>([getAllProducts, getAllCategories], (products, categories) => {
   return {
     categories: categories.length,
     products: products.length
   };
+});
+
+export const getCountOrders = createSelector<ApplicationState, ShopState, DomainEntity<number>>(shopState, (s1) => {
+  return s1.ordersTotalCount;
 });
 

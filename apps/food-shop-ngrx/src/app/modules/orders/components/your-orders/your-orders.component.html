@@ -9,7 +9,7 @@
 </app-dom-portal>
 
 <div class="mx-auto lg:max-w-7xl h-full overflow-y-scroll max-h-full">
-  <ng-container *ngIf="orders$ | async as orders">
-    <app-order-card-list [orders]="orders" (orderClicked)="selectOrder($event)"></app-order-card-list>
+  <ng-container *ngIf="ordersState$ | async as ordersState">
+    <app-order-card-list [orders]="ordersState.domain" (orderClicked)="selectOrder($event)"></app-order-card-list>
   </ng-container>
 </div>

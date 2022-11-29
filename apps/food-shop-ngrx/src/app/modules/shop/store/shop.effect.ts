@@ -30,6 +30,18 @@ export class ShopEffect {
     ))
   ));
 
+  countOrders$ = createEffect(() => {
+    return this.actions.pipe(
+      ofType(ShopActions.countOrders),
+      switchMap(() => {
+        return this.ordersApiService.getOrdersTotalCount().pipe(
+          map(totalOrders => ShopActions.counterOrdersSuccess({ totalOrders })),
+          catchError(err => of(ShopActions.countOrdersFailed({ errorMessage: 'Something went wrong ...' }))
+          ));
+      })
+    );
+  });
+
 
   constructor(
     private store: Store<ApplicationState>, private actions: Actions,

@@ -2,16 +2,16 @@
 
   <ng-container *ngIf="orders$ | async as ordersState">
     <ng-container *ngIf="ordersState.requestStatus.status === 'COMPLETED'">
-      <app-orders-widget (ordersClicked)="handleOrdersClicked()" [ordersCount]="ordersState.domain.length"></app-orders-widget>
+      <app-orders-widget (ordersClicked)="handleOrdersClicked()" [ordersCount]="ordersState.domain"></app-orders-widget>
     </ng-container>
 
   </ng-container>
-  <ng-container *ngIf="favoriteState$ | async as favoriteState">
+  <ng-container *ngIf="favoriteState$ | async as favoriteProducts">
     <app-favorite-widget
-      (addAllProductsToCart)="handleAddAllProductsToCart(favoriteState)"
+      (addAllProductsToCart)="handleAddAllProductsToCart(favoriteProducts)"
       (removeProductFromFavorite)="handleRemoveProductFromFavorite($event)"
       (addProductToCart)="handleAddProductToCart($event)"
-      [favoriteProducts]="favoriteState"></app-favorite-widget>
+      [favoriteProducts]="favoriteProducts"></app-favorite-widget>
   </ng-container>
   <ng-container *ngIf="cartState$ | async as cartState">
     <app-cart-widget

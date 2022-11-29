@@ -10,7 +10,13 @@ const shopInitialState: ShopState = {
   requestStatus: {
     status: 'NEW'
   },
-  filter: undefined
+  filter: undefined,
+  ordersTotalCount: {
+    domain: 0,
+    requestStatus: {
+      status: 'NEW'
+    }
+  }
 };
 
 
@@ -32,6 +38,41 @@ export const shopReducer = createReducer<ShopState>(shopInitialState,
       ...state,
       filter: productType
     };
-
+  }),
+  on(ShopActions.countOrders, (state) => {
+    return {
+      ...state,
+      ordersTotalCount: {
+        ...state.ordersTotalCount,
+        requestStatus: {
+          status: 'NEW'
+        }
+      }
+    };
+  }),
+  on(ShopActions.counterOrdersSuccess, (state, { totalOrders }) => {
+    return {
+      ...state,
+      ordersTotalCount: {
+        ...state.ordersTotalCount,
+        domain: totalOrders,
+        requestStatus: {
+          status: 'COMPLETED'
+        }
+      }
+    };
+  }),
+  on(ShopActions.countOrdersFailed, (state, { errorMessage }) => {
+    return {
+      ...state, ordersTotalCount: {
+        ...state.ordersTotalCount,
+        requestStatus: {
+          status: 'ERROR',
+          error: {
+            message: errorMessage
+          }
+        }
+      }
+    };
   })
 );

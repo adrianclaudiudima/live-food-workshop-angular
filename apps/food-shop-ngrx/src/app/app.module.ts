@@ -15,8 +15,8 @@ import { FoodShopCheckoutCheckoutDetailsModule } from '@food-shop-architecture-w
 import { FoodShopOrdersOrderCardListModule } from '@food-shop-architecture-workshop/food-shop/orders/order-card-list';
 import { FoodShopOrdersOrderDetailsModule } from '@food-shop-architecture-workshop/food-shop/orders/order-details';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { YourOrderDetailsComponent } from './components/your-order-details/your-order-details.component';
-import { YourOrdersComponent } from './components/your-orders/your-orders.component';
+import { YourOrderDetailsComponent } from './modules/orders/components/your-order-details/your-order-details.component';
+import { YourOrdersComponent } from './modules/orders/components/your-orders/your-orders.component';
 import { AppRouting } from './app.routing';
 import { StoreModule } from '@ngrx/store';
 import { foodShopActionReducerMap } from './store/app-state.module';
@@ -28,9 +28,7 @@ import { getStorageMetaReducers } from '@food-shop-architecture-workshop/shared/
 
 @NgModule({
   declarations: [AppComponent,
-    CheckoutComponent,
-    YourOrdersComponent,
-    YourOrderDetailsComponent
+    CheckoutComponent
   ],
   imports: [
     BrowserAnimationsModule,
