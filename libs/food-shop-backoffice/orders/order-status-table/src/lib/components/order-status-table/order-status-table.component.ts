@@ -38,8 +38,7 @@ export class OrderStatusTable {
     order: Order;
     newOrderStatus: OrderStatus;
   }> = new EventEmitter<{ order: Order; newOrderStatus: OrderStatus }>();
-  @Output() pageChanged: EventEmitter<PageEvent> =
-    new EventEmitter<PageEvent>();
+  @Output() pageChanged: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
   @Output() sortChanged: EventEmitter<Sort> = new EventEmitter<Sort>();
 
   constructor(private breakpointObserver: BreakpointObserver) {

@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/food-shop-backoffice-ngrx",
         "index": "apps/food-shop-backoffice-ngrx/src/index.html",
@@ -14,8 +16,24 @@
         "polyfills": "apps/food-shop-backoffice-ngrx/src/polyfills.ts",
         "tsConfig": "apps/food-shop-backoffice-ngrx/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/food-shop-backoffice-ngrx/src/favicon.ico", "apps/food-shop-backoffice-ngrx/src/assets"],
-        "styles": ["apps/food-shop-backoffice-ngrx/src/styles.scss"],
+        "assets": [
+          "apps/food-shop-backoffice-ngrx/src/favicon.ico",
+          "apps/food-shop-backoffice-ngrx/src/assets",
+          {
+            "glob": "**/*",
+            "input": "libs/core/theme/assets/icons/",
+            "output": "assets/icons/"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/core/theme/assets/food/",
+            "output": "assets/food/"
+          }
+        ],
+        "styles": [
+          "libs/core/theme/styles/styles.scss",
+          "apps/food-shop-backoffice-ngrx/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -61,7 +79,11 @@
           "browserTarget": "food-shop-backoffice-ngrx:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4203,
+        "proxyConfig": "proxy.conf.json"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -72,12 +94,17 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["apps/food-shop-backoffice-ngrx/**/*.ts", "apps/food-shop-backoffice-ngrx/**/*.html"]
+        "lintFilePatterns": [
+          "apps/food-shop-backoffice-ngrx/**/*.ts",
+          "apps/food-shop-backoffice-ngrx/**/*.html"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/food-shop-backoffice-ngrx"],
+      "outputs": [
+        "coverage/apps/food-shop-backoffice-ngrx"
+      ],
       "options": {
         "jestConfig": "apps/food-shop-backoffice-ngrx/jest.config.ts",
         "passWithNoTests": true

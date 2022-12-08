@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { combineLatest, map, Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'food-shop-architecture-workshop-root',
@@ -6,5 +8,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'food-shop-backoffice-ngrx';
+  isOpen = true;
+  sideNavConfig$: Observable<{ isLargeScreen: boolean }>;
+
+
+  constructor(
+    private breakpointsObserver: BreakpointObserver
+  ) {
+    this.sideNavConfig$ = combineLatest([
+      breakpointsObserver.observe([Breakpoints.XSmall, Breakpoints.Small]),
+      breakpointsObserver.observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
+    ]).pipe(
+      map(([small, large]) => {
+        if (large.matches) {
+          this.isOpen = true;
+        }
+        return {isLargeScreen: large.matches};
+      })
+    );
+  }
 }

@@ -1,10 +1,6 @@
 import { inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-  OrderPaymentSummary,
-  OrderPaymentSummaryExtraFee,
-  ProductOrder,
-} from '@food-shop-architecture-workshop/core/model';
+import { OrderPaymentSummary, OrderPaymentSummaryExtraFee, ProductOrder } from '@food-shop-architecture-workshop/core/model';
 
 export const mapPaymentFeeFromCardData = (
   cardData: Array<{ selected: boolean; value: number }>
@@ -16,10 +12,10 @@ export const mapPaymentFeeFromCardData = (
 export const calculateCartSubtotal = (productOrder: ProductOrder[]): number => {
   return productOrder.length > 0
     ? roundTo2Decimals(
-        productOrder
-          .map((prod) => prod.quantity * prod.product.price)
-          .reduce((a, b) => a + b)
-      )
+      productOrder
+        .map((prod) => prod.quantity * prod.product.price)
+        .reduce((a, b) => a + b)
+    )
     : 0;
 };
 
@@ -69,7 +65,7 @@ export const getCartPriceModel = (
     vatRatePercentage,
     vatRate,
     serviceCharge,
-    total: roundTo2Decimals(subtotal + serviceCharge + vatRate),
+    total: roundTo2Decimals(subtotal + serviceCharge + vatRate)
   };
 };
 
@@ -80,7 +76,7 @@ export const getCartPriceFeeModel = (
   return {
     ...cartCheckoutModel,
     paymentFee,
-    total: cartCheckoutModel.total + paymentFee,
+    total: roundTo2Decimals(cartCheckoutModel.total + paymentFee)
   };
 };
 
@@ -89,6 +85,6 @@ export const buildCheckoutForm = () => {
   return formBuilder.group({
     name: ['', Validators.required],
     table: ['', Validators.required],
-    comment: [''],
+    comment: ['']
   });
 };

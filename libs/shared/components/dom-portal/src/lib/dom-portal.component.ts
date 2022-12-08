@@ -1,11 +1,11 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { CdkPortal, DomPortalOutlet } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-dom-portal',
-  templateUrl: 'dom-portal.component.html',
+  templateUrl: 'dom-portal.component.html'
 })
-export class DomPortalComponent {
+export class DomPortalComponent implements AfterViewInit, OnDestroy {
   @Input()
   selector!: string;
 
