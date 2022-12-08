@@ -698,7 +698,7 @@
         "total": 95.65,
         "paymentFee": 2.5
       },
-      "orderStatus": "ORDER_NEW",
+      "orderStatus": "ORDER_PROCESSING",
       "orderDateUnix": 1668778294,
       "id": "51DD591A"
     },
@@ -827,7 +827,7 @@
         "total": 133.71,
         "paymentFee": 12.5
       },
-      "orderStatus": "ORDER_NEW",
+      "orderStatus": "ORDER_ACCEPTED",
       "orderDateUnix": 1670331456,
       "id": "DD579F76",
       "userId": "bf4cb37b-274d-49eb-a215-06ed5a6cff86"

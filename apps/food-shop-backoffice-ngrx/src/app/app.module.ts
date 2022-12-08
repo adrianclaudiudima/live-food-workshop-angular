@@ -20,14 +20,20 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ApiServiceModule } from '@food-shop-architecture-workshop/core/services/api-service';
 import { StatsEffects } from './store/stats/stats.effects';
 import { OrdersPaginatedEffects } from './store/orders/orders-paginated.effects';
+import { OrdersEntityAdapterEffects } from './store/orders-entity-adapter/orders-entity-adapter.effects';
+import { TemplateProjectionExampleComponent } from './components/template-projection-example/template-projection-example.component';
+import { TableComponent, TableHeaderDirective, TableRowDirective } from './components/table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NxWelcomeComponent,
     DashboardComponent,
-    OrdersComponent
-
+    OrdersComponent,
+    TemplateProjectionExampleComponent,
+    TableComponent,
+    TableRowDirective,
+    TableHeaderDirective
   ],
   imports: [
     BrowserAnimationsModule,
@@ -54,7 +60,8 @@ import { OrdersPaginatedEffects } from './store/orders/orders-paginated.effects'
     }),
     EffectsModule.forRoot([
       StatsEffects,
-      OrdersPaginatedEffects
+      OrdersPaginatedEffects,
+      OrdersEntityAdapterEffects
     ])
   ],
 

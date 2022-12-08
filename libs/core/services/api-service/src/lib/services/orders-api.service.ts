@@ -62,4 +62,10 @@ export class OrdersApiService {
       orderStatus: newOrderStatus,
     });
   }
+
+  public updateOrderStatus2(orderId:string, newOrderStatus: OrderStatus) {
+    return this.httpClient.patch<Order>(`api/order/${orderId}`, {
+      orderStatus: newOrderStatus,
+    });
+  }
 }
